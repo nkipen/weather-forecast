@@ -1,18 +1,29 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+<!--    <img alt="Vue logo" src="../assets/logo.png">-->
+    <mini-widget />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import HelloWorld from '@/components/HelloWorld.vue' // @ is an alias to /src
+import { defineComponent, ref, onMounted } from 'vue'
+import { useStore } from 'vuex'
+import MiniWidget from '@/components/MiniWidget.vue'
 
 export default defineComponent({
   name: 'Home',
+  setup () {
+    const store = useStore()
+    const headerText = ref('test')
+    const initWeather = async () => {
+      await store.dispatch('updateCity')
+      await store.dispatch('updateWeather')
+    }
+    onMounted(() => initWeather())
+    return { headerText }
+  },
   components: {
-    HelloWorld
+    MiniWidget
   }
 })
 </script>
