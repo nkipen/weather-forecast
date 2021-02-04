@@ -1,13 +1,10 @@
 <template>
-  <div class="hello">
-    <h1 v-html="msg"></h1>
-    <div class="weather-item">
-      <div class="weather-item__name">{{ cityName }}</div>
-      <div class="weather-item__temp">{{ temperature }}<div>°C</div></div>
-      <div class="weather-item__description">
-        <img :src="imgSrc" class="weather-icon" alt="weather-icon">
-        {{ weather.description }}
-      </div>
+  <div class="weather-item">
+    <div class="weather-item__name">{{ cityName }}</div>
+    <div class="weather-item__temp">{{ temperature }}<div>°C</div></div>
+    <div class="weather-item__description">
+      <img :src="imgSrc" class="weather-icon" alt="weather-icon">
+      {{ weather.description }}
     </div>
   </div>
 </template>
@@ -27,12 +24,6 @@ export default defineComponent({
       cityName: computed(() => store.getters.getCurrentWeather.city_name),
       temperature: computed(() => store.getters.getCurrentWeather.temp),
       imgSrc: computed(() => require(`@/assets/icons/${icon.value}.png`))
-    }
-  },
-  props: {
-    msg: {
-      type: String,
-      default: 'Choose your <s>fighter</s> city.'
     }
   }
 })

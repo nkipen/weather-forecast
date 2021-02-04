@@ -3,4 +3,13 @@ interface Coords {
   lon: number
 }
 
-export { Coords }
+interface StoreState {
+  weather: object,
+  coords: Coords,
+  isGeolocationAllowed: boolean
+}
+
+export {
+  Coords,
+  StoreState
+}
