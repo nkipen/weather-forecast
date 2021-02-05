@@ -1,18 +1,31 @@
 <template>
-  <form @submit.prevent="onSubmit">
-    <select name="countrySelector" id="countrySelector" v-model="checkedCountry"
-            @change="checkedCityId = filteredCities['0'].city_id">
-      <option v-for="(country, id) in countries" :value="country.country_code" :key="id">
-        {{ country.country_name || country.country_code }}
-      </option>
-    </select>
-    <select name="citySelector" id="citySelector" v-model="checkedCityId">
-      <option v-for="city in filteredCities" :value="city.city_id" :key="city.city_id">
-        {{ city.city_name }}
-      </option>
-    </select>
-    <button type="submit">Check</button>
-  </form>
+  <el-form inline @submit.prevent="onSubmit" class="location-form">
+    <el-form-item label="Country">
+      <el-select v-model="checkedCountry"
+              @change="onCountryChange" :placeholder="checkedCountry">
+        <el-option v-for="(country, id) in countries"
+                  :value="country.country_code"
+                  :key="id"
+                  :label="country.country_name || country.country_code">
+        </el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item label="City">
+      <el-select v-model="checkedCityId"
+                filterable
+                :filter-method="getCitiesOptions"
+                :placeholder="checkedCity.city_name">
+        <el-option v-for="city in filteredCities"
+                  :value="city.city_id"
+                  :key="city.city_id"
+                  :label="city.city_name">
+        </el-option>
+      </el-select>
+    </el-form-item>
+    <el-button type="primary" native-type="submit" plain>
+      <i class="el-icon-search" /> Search
+    </el-button>
+  </el-form>
 </template>
 
 <script>
@@ -31,8 +44,11 @@ export default defineComponent({
     const filteredCities = computed(() => citiesArray.filter(({ country_code: code }) => code === checkedCountry.value))
     const checkedCityId = ref(filteredCities.value['0'].city_id)
     const checkedCity = computed(() => filteredCities.value.find(({ city_id: id }) => id === checkedCityId.value))
-
-    function onSubmit () {
+    const onCountryChange = () => {
+      checkedCityId.value = filteredCities.value['0'].city_id
+    }
+    const getCitiesOptions = () => filteredCities
+    const onSubmit = () => {
       const { lat, lon } = checkedCity.value
       updateCity({ lat, lon })
       store.dispatch('updateWeather')
@@ -42,7 +58,10 @@ export default defineComponent({
       countries,
       checkedCountry,
       filteredCities,
+      checkedCity,
       checkedCityId,
+      getCitiesOptions,
+      onCountryChange,
       onSubmit
     }
   }

@@ -1,14 +1,16 @@
 <template>
-  <div class="home">
-    <h2 v-html="title"></h2>
-    <location-form />
-    <template v-if="hasWeather">
-      <mini-widget />
-    </template>
-    <template v-else>
-      {{ warningMessage }}
-    </template>
-  </div>
+  <el-row class="home" type="flex" justify="center">
+    <el-col :span="12">
+      <h2 v-html="title"></h2>
+      <location-form />
+      <template v-if="hasWeather">
+        <mini-widget />
+      </template>
+      <el-empty v-else>
+        <el-alert :title="warningMessage" type="warning" :closable="false" show-icon />
+      </el-empty>
+    </el-col>
+  </el-row>
 </template>
 
 <script lang="ts">
@@ -22,11 +24,11 @@ export default defineComponent({
   name: 'Home',
   setup () {
     const store = useStore()
-    const title = ref('\'Choose your <s>fighter</s> city.\'')
+    const title = ref('<i class=\'el-icon-location\'></i> Choose your <s>fighter</s> city')
     const warningMessage = ref('Allow \'Weather Forecast\' to access your location.')
     const initWeather = async () => {
       await store.dispatch('getCity')
-      await store.dispatch('updateWeather')
+      // await store.dispatch('updateWeather')
     }
     const hasWeather = computed(() => store.getters.isGeolocationAllowed && !isEmpty(store.getters.getCurrentWeather))
     onMounted(() => initWeather())
