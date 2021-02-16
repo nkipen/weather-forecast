@@ -4,7 +4,7 @@
       <h2 v-html="title"></h2>
       <location-form />
       <template v-if="hasWeather">
-        <mini-widget />
+        <full-widget />
       </template>
       <el-empty v-else>
         <el-alert :title="warningMessage" type="warning" :closable="false" show-icon />
@@ -16,7 +16,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import MiniWidget from '@/components/MiniWidget.vue'
+import FullWidget from '@/components/FullWidget.vue'
 import LocationForm from '@/components/LocationForm.vue'
 import { isEmpty } from 'lodash'
 
@@ -39,7 +39,7 @@ export default defineComponent({
     }
   },
   components: {
-    MiniWidget,
+    FullWidget,
     LocationForm
   }
 })

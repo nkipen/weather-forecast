@@ -28,9 +28,8 @@ export default createStore({
       return new Promise((resolve, reject) => {
         services.getWeather(coords)
           .then(data => {
-            const currentWeather = data.data[0]
-            commit('UPDATE_WEATHER', currentWeather)
-            return resolve(currentWeather)
+            commit('UPDATE_WEATHER', data)
+            return resolve(data)
           })
           .catch(error => reject(error))
       })
@@ -54,7 +53,8 @@ export default createStore({
     }
   },
   getters: {
-    getCurrentWeather: state => state.weather,
+    getWeather: state => state.weather,
+    getCurrentWeather: state => state.weather.data[0],
     getCurrentCoords: state => state.coords,
     isGeolocationAllowed: state => state.isGeolocationAllowed
   },
