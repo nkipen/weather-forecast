@@ -1,5 +1,5 @@
 <template>
-  <el-form inline @submit.prevent="onSubmit" class="location-form">
+  <el-form @submit.prevent="onSubmit" class="location-form">
     <el-form-item label="Country">
       <el-select v-model="checkedCountry"
               @change="onCountryChange" :placeholder="checkedCountry">
@@ -22,9 +22,11 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-button type="primary" native-type="submit" plain>
-      <i class="el-icon-search" /> Search
-    </el-button>
+    <el-form-item>
+      <el-button type="primary" native-type="submit" plain>
+        <i class="el-icon-search" /> Search
+      </el-button>
+    </el-form-item>
   </el-form>
 </template>
 
@@ -67,3 +69,25 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss" scoped>
+  .location-form {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    max-width: 1200px;
+
+    .el-form-item + .el-form-item {
+      margin-left: 1rem;
+    }
+
+    @media(max-width: 768px ) {
+      flex-direction: column;
+      align-items: center;
+
+      .el-form-item + .el-form-item {
+        margin-left: 0;
+      }
+    }
+  }
+</style>

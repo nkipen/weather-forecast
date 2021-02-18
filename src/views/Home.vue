@@ -1,16 +1,22 @@
 <template>
-  <el-row class="home" type="flex" justify="center">
-    <el-col :span="12">
-      <h2 v-html="title"></h2>
-      <location-form />
+    <el-container v-loading="loading" direction="vertical">
+      <el-row type="flex" justify="center">
+        <el-col :xs="24" :xl="12">
+          <h2 v-html="title"></h2>
+          <location-form />
+        </el-col>
+      </el-row>
       <template v-if="hasWeather">
         <full-widget />
       </template>
       <el-empty v-else>
-        <el-alert :title="warningMessage" type="warning" :closable="false" show-icon />
+        <el-row type="flex" justify="center">
+          <el-col :span="12">
+            <el-alert :title="warningMessage" type="warning" :closable="false" show-icon />
+          </el-col>
+        </el-row>
       </el-empty>
-    </el-col>
-  </el-row>
+    </el-container>
 </template>
 
 <script lang="ts">
@@ -27,15 +33,23 @@ export default defineComponent({
     const title = ref('<i class=\'el-icon-location\'></i> Choose your <s>fighter</s> city')
     const warningMessage = ref('Allow \'Weather Forecast\' to access your location.')
     const initWeather = async () => {
-      await store.dispatch('getCity')
-      // await store.dispatch('updateWeather')
+      try {
+        await store.dispatch('toggleLoading')
+        await store.dispatch('getCity')
+        await store.dispatch('updateWeather')
+      } catch (error) {
+        console.log(error)
+      } finally {
+        await store.dispatch('toggleLoading', false)
+      }
     }
     const hasWeather = computed(() => store.getters.isGeolocationAllowed && !isEmpty(store.getters.getCurrentWeather))
     onMounted(() => initWeather())
     return {
       title,
       warningMessage,
-      hasWeather
+      hasWeather,
+      loading: computed(() => store.getters.loading)
     }
   },
   components: {

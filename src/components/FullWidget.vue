@@ -1,6 +1,6 @@
 <template>
-  <div class="weather-item">
-    <div class="weather-item__card">
+  <el-row class="weather-item" :gutter="20" type="flex" justify="center">
+    <el-col :xs="24" :sm="12" :md="6" :lg="4" class="weather-item__card">
       <div class="weather-item__date">
         <div>{{ dateString }}</div>
         <div><i class="el-icon-location"></i>{{ locationName }}</div>
@@ -8,8 +8,8 @@
       <img :src="imgSrc" class="weather-icon" alt="Weather Icon">
       <div class="weather-item__temp">{{ temperature }}<div>°C</div></div>
       <div>{{ currentWeather.weather.description }}</div>
-    </div>
-    <div class="weather-item__card weather-item__card_detailed">
+    </el-col>
+    <el-col :xs="24" :sm="12" :md="8" :lg="6" class="weather-item__card weather-item__card_detailed">
       <div class="weather-item__row">
         <div class="weather-item__column">{{ transformToUpperText('Relative humidity:') }}</div>
         <div class="weather-item__column">{{ currentWeather.rh }} %</div>
@@ -27,14 +27,14 @@
         <div class="weather-item__column">{{ sunSet }}</div>
       </div>
       <mini-widget :forecast-array="getWeather.data" />
-    </div>
-  </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
-import { format, fromUnixTime } from 'date-fns'
+import { format, fromUnixTime, parseISO } from 'date-fns'
 import MiniWidget from '@/components/MiniWidget.vue'
 
 export default defineComponent({
@@ -48,7 +48,7 @@ export default defineComponent({
     const sunRise = format(fromUnixTime(currentWeather.value.sunrise_ts), 'p')
     const sunSet = format(fromUnixTime(currentWeather.value.sunset_ts), 'p')
     const icon = computed(() => currentWeather.value.weather.icon)
-    const dateString = ref(format(new Date(), 'ccc, d MMMM yyyy'))
+    const dateString = computed(() => format(parseISO(currentWeather.value.datetime), 'ccc, d MMMM yyyy'))
     const transformToUpperText = (text: string): string => text.toUpperCase()
 
     return {
@@ -80,7 +80,6 @@ export default defineComponent({
     display: flex;
     font-size: 3rem;
     line-height: .9;
-    justify-content: center;
     color: #42b983;
 
     div {
@@ -93,19 +92,14 @@ export default defineComponent({
     background: linear-gradient(#343d4b, #63738c);
     color: aliceblue;
     border-radius: 2rem;
-    padding: 1rem 1.5rem;
+    padding: 1rem 1.5rem !important;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    transition: all .3s ease;
 
     &:not(&_detailed) {
       div + div {
         margin-top: .5rem;
-      }
-
-      &:hover {
-        transform: scale(1.05) perspective(1500px) rotateY(10deg);
       }
     }
 
@@ -113,7 +107,7 @@ export default defineComponent({
       align-items: normal;
       border-radius: 0 1rem 1rem 0;
       margin: 2rem 0;
-      padding: 1rem;
+      padding: 1rem !important;
       background: #343d4b;
       font-size: .8rem;
     }
@@ -140,20 +134,18 @@ export default defineComponent({
     height: 110px;
     margin: 4rem 0 0 -1rem;
   }
-}
 
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+  @media(max-width: 767px ) {
+    &__card {
+      max-width: 400px;
+
+      &_detailed {
+        border-radius: 2rem;
+      }
+      & /deep/.widget__item {
+        padding: 1rem 0;
+      }
+    }
+  }
 }
 </style>

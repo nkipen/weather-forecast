@@ -15,10 +15,26 @@ interface StoreState {
   weather: WeatherbitResponse;
   coords: Coords;
   forecast: object;
+  checkedDayId: number;
+  loading: boolean;
   isGeolocationAllowed: boolean;
+}
+
+interface WeatherInfo {
+  code: number;
+  description: string;
+  icon: string;
+}
+
+interface DayWeatherForecast {
+  datetime: string;
+  weather: WeatherInfo;
+  temp: number;
+  [option: string]: any;
 }
 
 export {
   Coords,
-  StoreState
+  StoreState,
+  DayWeatherForecast
 }

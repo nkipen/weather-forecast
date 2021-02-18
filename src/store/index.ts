@@ -8,6 +8,8 @@ export default createStore({
   state: {
     weather: getItemFromLS('weather'),
     coords: getItemFromLS('coords'),
+    checkedDayId: 0,
+    loading: false,
     isGeolocationAllowed: false
   } as StoreState,
   mutations: {
@@ -20,11 +22,18 @@ export default createStore({
       state.coords = payload
       localStorage.setItem('coords', JSON.stringify(payload))
       if (!state.isGeolocationAllowed) state.isGeolocationAllowed = true
+    },
+    UPDATE_LOADING (state, payload = true) {
+      state.loading = payload
+    },
+    UPDATE_CHECKED_DAY_ID (state, payload: number) {
+      state.checkedDayId = payload
     }
   },
   actions: {
     updateWeather ({ commit, getters }) {
       const coords = getters.getCurrentCoords
+      commit('UPDATE_LOADING')
       return new Promise((resolve, reject) => {
         services.getWeather(coords)
           .then(data => {
@@ -32,6 +41,7 @@ export default createStore({
             return resolve(data)
           })
           .catch(error => reject(error))
+          .finally(() => commit('UPDATE_LOADING', false))
       })
     },
     getCity ({ commit, state }) {
@@ -50,14 +60,20 @@ export default createStore({
     },
     updateCity ({ commit }, payload: Coords) {
       commit('UPDATE_COORDS', payload)
+    },
+    updateCheckedDayId ({ commit }, payload: number) {
+      commit('UPDATE_CHECKED_DAY_ID', payload)
+    },
+    toggleLoading ({ commit }, payload: boolean) {
+      commit('UPDATE_LOADING', payload)
     }
   },
   getters: {
-    getWeather: state => state.weather,
-    getCurrentWeather: state => state.weather.data[0],
-    getCurrentCoords: state => state.coords,
-    isGeolocationAllowed: state => state.isGeolocationAllowed
-  },
-  modules: {
+    getWeather: ({ weather }) => weather,
+    checkedDayId: ({ checkedDayId }) => checkedDayId,
+    getCurrentWeather: ({ weather, checkedDayId }) => weather.data[checkedDayId],
+    getCurrentCoords: ({ coords }) => coords,
+    loading: ({ loading }) => loading,
+    isGeolocationAllowed: ({ isGeolocationAllowed }) => isGeolocationAllowed
   }
 })

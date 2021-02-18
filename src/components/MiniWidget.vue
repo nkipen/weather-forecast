@@ -1,6 +1,7 @@
 <template>
   <div class="widget">
-    <div class="widget__item" v-for="(item, id) in forecastArray" :key="id" :class="{ 'widget__item_active': id === 0 }">
+    <div class="widget__item" :class="{ 'widget__item_active': id === getCheckedDayId }"
+         v-for="(item, id) in forecastArray" :key="id" @click="changeDayId(id)">
       <div>{{ formatData(item).day }}</div>
       <img :src="formatData(item).img" class="weather-icon" alt="Weather Icon">
       <div>{{ formatData(item).temp }}</div>
@@ -9,7 +10,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs, computed } from 'vue'
+import { useStore } from 'vuex'
+import { DayWeatherForecast } from '@/types'
 import { format, parseISO } from 'date-fns'
 
 export default defineComponent({
@@ -21,13 +24,18 @@ export default defineComponent({
     }
   },
   setup () {
+    const store = useStore()
     const miniWidget = reactive({
-      formatData ({ datetime, temp, weather }) {
+      formatData ({ datetime, temp, weather }: DayWeatherForecast) {
         return {
           day: format(parseISO(datetime), 'ccc'),
           temp: `${temp}°C`,
           img: require(`@/assets/icons/${weather.icon}.png`)
         }
+      },
+      getCheckedDayId: computed(() => store.getters.checkedDayId),
+      changeDayId (id: number) {
+        store.dispatch('updateCheckedDayId', id)
       }
     })
 
@@ -46,6 +54,7 @@ export default defineComponent({
     &__item {
       display: flex;
       flex-direction: column;
+      flex-grow: 1;
       align-items: center;
       border-radius: .3rem;
       padding: 1rem .3rem;

@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <el-row>
+      <el-row :gutter="20">
         <el-col :span="24">
           <el-menu default-active="/" mode="horizontal" router>
             <el-menu-item index="/" :route="{name: 'Home'}">Home</el-menu-item>
@@ -26,25 +26,13 @@
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-
 h2 {
   text-align: center;
 }
 
-.location-form {
-  width: fit-content;
-  margin: 0 auto;
+@media(max-width: 620px ) {
+  h2 {
+    font-size: 1rem;
+  }
 }
 </style>
