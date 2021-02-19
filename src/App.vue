@@ -26,6 +26,10 @@
   color: #2c3e50;
 }
 
+.el-select-dropdown__item, p.el-select-dropdown__empty {
+  font-family: Montserrat, sans-serif;
+}
+
 h2 {
   text-align: center;
 }

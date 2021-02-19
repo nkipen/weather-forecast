@@ -31,7 +31,7 @@ export default defineComponent({
   setup () {
     const store = useStore()
     const title = ref('<i class=\'el-icon-location\'></i> Choose your <s>fighter</s> city')
-    const warningMessage = ref('Allow \'Weather Forecast\' to access your location.')
+    const warningMessage = ref('Allow \'Weather Forecast\' to access your location or choose it in form above.')
     const initWeather = async () => {
       try {
         await store.dispatch('toggleLoading')
