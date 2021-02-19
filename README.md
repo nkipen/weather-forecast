@@ -1,6 +1,15 @@
-# weather-forecast
+# ⛅️ Weather Forecast
 
-## Project setup
+## 📚 Project description
+
+> 'Weather forecast' is a web application which provides weather forecast 
+for the nearest 5 days. It uses geolocation API to retrieve user's latitude and longitude.
+Also, there is opportunity to choose location from the form.
+>
+
+![plot](./public/demo_desktop.png)
+
+## ⚙️Project setup
 ```
 npm install
 ```
