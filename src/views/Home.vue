@@ -1,22 +1,22 @@
 <template>
-    <el-container v-loading="loading" direction="vertical">
+  <el-container v-loading="loading" direction="vertical">
+    <el-row type="flex" justify="center">
+      <el-col :xs="24" :xl="12">
+        <h2 v-html="title"></h2>
+        <location-form />
+      </el-col>
+    </el-row>
+    <template v-if="hasWeather">
+      <full-widget />
+    </template>
+    <el-empty v-else>
       <el-row type="flex" justify="center">
-        <el-col :xs="24" :xl="12">
-          <h2 v-html="title"></h2>
-          <location-form />
+        <el-col :span="12">
+          <el-alert :title="warningMessage" type="warning" :closable="false" show-icon />
         </el-col>
       </el-row>
-      <template v-if="hasWeather">
-        <full-widget />
-      </template>
-      <el-empty v-else>
-        <el-row type="flex" justify="center">
-          <el-col :span="12">
-            <el-alert :title="warningMessage" type="warning" :closable="false" show-icon />
-          </el-col>
-        </el-row>
-      </el-empty>
-    </el-container>
+    </el-empty>
+  </el-container>
 </template>
 
 <script lang="ts">

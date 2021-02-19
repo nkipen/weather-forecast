@@ -1,9 +1,9 @@
-interface Coords {
+export interface Coords {
   lat: number;
   lon: number;
 }
 
-interface WeatherbitResponse extends Coords {
+export interface WeatherbitResponse extends Coords {
   city_name: string;
   country_code: string;
   state_code: string;
@@ -11,7 +11,7 @@ interface WeatherbitResponse extends Coords {
   data: object[];
 }
 
-interface StoreState {
+export interface StoreState {
   weather: WeatherbitResponse;
   coords: Coords;
   forecast: object;
@@ -20,21 +20,15 @@ interface StoreState {
   isGeolocationAllowed: boolean;
 }
 
-interface WeatherInfo {
+export interface WeatherInfo {
   code: number;
   description: string;
   icon: string;
 }
 
-interface DayWeatherForecast {
+export interface DayWeatherForecast {
   datetime: string;
   weather: WeatherInfo;
   temp: number;
   [option: string]: any;
-}
-
-export {
-  Coords,
-  StoreState,
-  DayWeatherForecast
 }

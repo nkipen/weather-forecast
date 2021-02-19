@@ -142,7 +142,7 @@ export default defineComponent({
       &_detailed {
         border-radius: 2rem;
       }
-      & /deep/.widget__item {
+      &:deep() .widget__item {
         padding: 1rem 0;
       }
     }
