@@ -75,7 +75,6 @@ export default defineComponent({
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    max-width: 1200px;
 
     .el-form-item + .el-form-item {
       margin-left: 1rem;
