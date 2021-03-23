@@ -6,6 +6,7 @@
       <img :src="formatData(item).img" class="weather-icon" alt="Weather Icon">
       <div>{{ formatData(item).temp }}</div>
     </div>
+    <div>Extra data</div>
   </div>
 </template>
 
