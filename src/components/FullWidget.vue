@@ -28,8 +28,6 @@
       </div>
       <mini-widget :forecast-array="getWeather.data" />
     </el-col>
-    <div>Some data renders</div>
-    <div>Extra data renders</div>
   </el-row>
 </template>
 
