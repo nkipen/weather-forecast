@@ -35,6 +35,7 @@
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid delectus exercitationem harum impedit
         itaque nam provident quaerat recusandae repellat veritatis.
       </p>
+      <span>text</span>
     </el-form-item>
   </el-form>
 </template>
