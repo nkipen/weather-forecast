@@ -31,6 +31,10 @@
       <el-button type="primary" native-type="submit" plain>
         <i class="el-icon-search" /> Search
       </el-button>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid delectus exercitationem harum impedit
+        itaque nam provident quaerat recusandae repellat veritatis.
+      </p>
     </el-form-item>
   </el-form>
 </template>
